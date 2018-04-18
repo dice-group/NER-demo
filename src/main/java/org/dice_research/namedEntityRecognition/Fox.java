@@ -60,35 +60,35 @@ public class Fox {
 		 * @throws Exception
 		 */
 		
-		public List<String> getEntities(String question, String lang) throws Exception {
-
-			String foxJSONOutput = doTASK(question, lang);
-
-			JSONParser parser = new JSONParser();
-			JSONObject jsonArray = (JSONObject) parser.parse(foxJSONOutput);
-			String output = URLDecoder.decode((String) jsonArray.get("output"), "UTF-8");
-
-			String baseURI = "http://dbpedia.org";
-			Model model = ModelFactory.createDefaultModel();
-			RDFReader r = model.getReader("N3");
-			r.read(model, new StringReader(output), baseURI);
-
-			ResIterator iter = model.listSubjects();
-			List<String> namedEntities = new ArrayList<>();
-			while (iter.hasNext()) {
-				Resource next = iter.next();
-				StmtIterator statementIter = next.listProperties();
-
-				while (statementIter.hasNext()) {
-					Statement statement = statementIter.next();
-					String predicateURI = statement.getPredicate()
-					                               .getURI();
-					namedEntities.add(predicateURI);
-				}
-			}
-
-			return namedEntities;
-		}
+//		public List<String> getEntities(String question, String lang) throws Exception {
+//
+//			String foxJSONOutput = doTASK(question, lang);
+//
+//			JSONParser parser = new JSONParser();
+//			JSONObject jsonArray = (JSONObject) parser.parse(foxJSONOutput);
+//			String output = URLDecoder.decode((String) jsonArray.get("output"), "UTF-8");
+//
+//			String baseURI = "http://dbpedia.org";
+//			Model model = ModelFactory.createDefaultModel();
+//			RDFReader r = model.getReader("N3");
+//			r.read(model, new StringReader(output), baseURI);
+//
+//			ResIterator iter = model.listSubjects();
+//			List<String> namedEntities = new ArrayList<>();
+//			while (iter.hasNext()) {
+//				Resource next = iter.next();
+//				StmtIterator statementIter = next.listProperties();
+//
+//				while (statementIter.hasNext()) {
+//					Statement statement = statementIter.next();
+//					String predicateURI = statement.getPredicate()
+//					                               .getURI();
+//					namedEntities.add(predicateURI);
+//				}
+//			}
+//
+//			return namedEntities;
+//		}
 		
 		/**
 		 * 
@@ -134,6 +134,6 @@ public class Fox {
 		public static void main( String[] args ) throws Exception{	
 	    Fox f = new Fox();
 	    String str = "Katie Holmes got divorced from Tom Cruise in Germany.";
-	    System.out.println(f.getEntities(str, "en"));
+	    System.out.println(f.doTASK(str, "en"));
 	    }
 }
