@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -23,17 +22,12 @@ import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.rdf.model.impl.ResourceImpl;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class Fox {
 		private String requestURL = "http://fox-demo.aksw.org/fox";
-		private String outputFormat = "N-Triples";
+		private String outputFormat = "turtle";
 		private String taskType = "ner";
 		private String inputType = "text";
 		
@@ -53,7 +47,7 @@ public class Fox {
 			urlParameters.put("lang", lang);
 
 			urlParameters.put("output", outputFormat);
-			urlParameters.put("input", URLEncoder.encode(inputText, "UTF-8"));
+			urlParameters.put("input", inputText);
 			return requestPOST(urlParameters, requestURL);
 			
 		}
@@ -109,7 +103,7 @@ public class Fox {
 		private String requestPOST(final JSONObject urlParameters, final String requestURL) throws MalformedURLException, IOException, ProtocolException {
 			URL url = new URL(requestURL);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
+			connection.setRequestMethod("GET");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setUseCaches(false);
@@ -117,6 +111,7 @@ public class Fox {
 			connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
 			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+			System.out.println(urlParameters.toString());
 			wr.writeBytes(urlParameters.toString());
 			wr.flush();
 

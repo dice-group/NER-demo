@@ -1,7 +1,5 @@
 package org.dice_research.namedEntityRecognition;
 
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -14,14 +12,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import org.apache.logging.log4j.LogManager;
 
 /**
  * NER using DBpedia Spotlight API 
